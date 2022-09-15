@@ -31,9 +31,8 @@ routerProductos.get("/", (req, res) => {
 })
 
 routerProductos.get('/:id', (req, res) => {
-    const productId = productos.filter(data => data.id === req.params);
-    console.log(productId);
-    res.json({productId})
+    const productId = productos.filter(data => data.id === parseInt(req.params.id));
+    res.json(productId[0])
 })
 
 routerProductos.post("/", (req, res) => {
@@ -48,5 +47,13 @@ routerProductos.post("/", (req, res) => {
         console.log(req.body);
         productos.push(req.body);
         res.json({"mensaje" : "se agrego el producto con ID: " + req.body.id})
+    }
+})
+
+routerProductos.delete('/:id', (req, res) => {
+    const indiceDelete = productos.findIndex(data => data.id === parseInt(req.params.id));
+    if (indiceDelete >= 0) {
+        productos.splice(indiceDelete, 1);
+        res.json({productos});
     }
 })
