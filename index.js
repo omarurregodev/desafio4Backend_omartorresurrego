@@ -32,7 +32,11 @@ routerProductos.get("/", (req, res) => {
 
 routerProductos.get('/:id', (req, res) => {
     const productId = productos.filter(data => data.id === parseInt(req.params.id));
-    res.json(productId[0])
+    if (productId.length > 0) {
+        res.json(productId[0])      
+    } else {
+        res.json({"error":"Producto no encontrado"});
+    }
 })
 
 routerProductos.post("/", (req, res) => {
@@ -47,6 +51,18 @@ routerProductos.post("/", (req, res) => {
         console.log(req.body);
         productos.push(req.body);
         res.json({"mensaje" : "se agrego el producto con ID: " + req.body.id})
+    }
+})
+
+routerProductos.put('/:id', (req, res) => {
+    const productId = productos.filter(data => data.id === parseInt(req.params.id));
+    if (productId.length > 0) {
+        productId[0].title = "actualizadoNombre";
+        productId[0].price = "4321";
+        productId[0].thumbnail = "actualizadoThumbnail";
+        res.json(productId[0])      
+    } else {
+        res.json({"error":"Producto no encontrado"});
     }
 })
 
